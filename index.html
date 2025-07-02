@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Totally Normal Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6b7280, #1e3a8a);
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: clamp(20px, 5vw, 40px);
+            max-width: 800px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+            margin: clamp(20px, 5vw, 40px);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            animation: subtleBounce 2s ease-in-out infinite;
+            user-select: none;
+        }
+
+        @keyframes subtleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .prank-button {
+            background: rgba(255, 71, 87, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: clamp(12px, 3vw, 16px) clamp(20px, 5vw, 30px);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: inherit;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prank-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
+        }
+
+        .prank-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .prank-button:hover::before {
+            left: 100%;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .moving-text {
+            position: absolute;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 600;
+            color: #ff6b6b;
+            animation: float 4s ease-in-out infinite;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .surprise-box {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: clamp(20px, 5vw, 30px);
+            margin: 2rem auto;
+            max-width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .emoji-explosion {
+            position: fixed;
+            font-size: clamp(20px, 5vw, 30px);
+            animation: fall 2s linear forwards;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .popup-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 71, 87, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: clamp(15px, 4vw, 20px);
+            border-radius: 12px;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            animation: popIn 0.5s ease-out;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 90%;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            color: #ff69b4;
+            font-size: clamp(15px, 4vw, 20px);
+            animation: heartFloat 3s ease-in-out forwards;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @keyframes heartFloat {
+            0% { transform: translateY(100vh); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(255, 71, 87, 0.5), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: trailFade 0.8s ease-out forwards;
+        }
+
+        @keyframes trailFade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .matrix-column {
+            position: absolute;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: clamp(12px, 3vw, 16px);
+            animation: matrixFall linear forwards;
+        }
+
+        @keyframes matrixFall {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .rainbow-text {
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff);
+            background-size: 400%;
+            animation: rainbowWave 3s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        @keyframes rainbowWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .disco-ball {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: clamp(40px, 10vw, 60px);
+            height: clamp(40px, 10vw, 60px);
+            background: conic-gradient(#ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #ff0000);
+            border-radius: 50%;
+            animation: discoBall 4s linear infinite;
+            z-index: 1000;
+            opacity: 0.7;
+        }
+
+        @keyframes discoBall {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            .prank-button {
+                width: 100%;
+                justify-content: center;
+            }
+            .surprise-box p {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-rain" id="matrixRain"></div>
+    <div class="disco-ball"></div>
+
+    <div class="container">
+        <h1 id="mainTitle">Welcome to My Totally Normal Website! 😊</h1>
+        
+        <div class="moving-text" style="left: 5%; top: 10%;">Hey Big Sis! 👋</div>
+        <div class="moving-text" style="right: 5%; top: 20%; animation-delay: 1s;">You're amazing! ⭐</div>
+        <div class="moving-text" style="left: 10%; bottom: 20%; animation-delay: 2s;">Love you tons! ❤️</div>
+        <div class="moving-text" style="right: 15%; bottom: 30%; animation-delay: 3s;">Best sis ever! 🌟</div>
+
+        <div class="button-group">
+            <button class="prank-button" onclick="ultimateSurprise()">🎉 Epic Surprise!</button>
+            <button class="prank-button" onclick="chaosMode()">🌪️ Chaos Mode!</button>
+            <button class="prank-button" onclick="loveExplosion()">💕 Love Explosion!</button>
+            <button class="prank-button" onclick="matrixMode()">🔥 Enter The Matrix!</button>
+        </div>
+
+        <div class="surprise-box" id="surpriseBox">
+            <h2 class="rainbow-text">🎊 MEGA SURPRISE ACTIVATED! 🎊</h2>
+            <p>Your little sibling thinks you're the absolute best! 💖</p>
+            <p>This whole website is a love letter to how awesome you are! 🌈</p>
+            <p>Hope this made you laugh and brightened your day! 😄✨</p>
+        </div>
+    </div>
+
+    <script>
+        let prankLevel = 0;
+        let intervals = [];
+        let isMatrixMode = false;
+        let audioContext;
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = (e.clientX - 10) + 'px';
+            trail.style.top = (e.clientY - 10) + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 800);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = (touch.clientX - 10) + 'px';
+            trail.style.top = (touch.clientY - 10) + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 800);
+        });
+
+        function ultimateSurprise() {
+            initAudio();
+            prankLevel = 999;
+            document.getElementById('surpriseBox').style.display = 'block';
+            const title = document.getElementById('mainTitle');
+            title.innerHTML = "🎉 YOU'VE BEEN MEGA-PRANKED! 🎉";
+            title.classList.add('rainbow-text');
+            intervals.push(setInterval(createEmojiExplosion, 150));
+            intervals.push(setInterval(createFloatingHearts, 300));
+            playSoundSymphony();
+            showPopup("🎊 SURPRISE FROM YOUR FAVORITE SIBLING! 🎊");
+        }
+
+        function chaosMode() {
+            initAudio();
+            isMatrixMode = false;
+            const buttons = document.querySelectorAll('.prank-button');
+            const chaosTexts = ['🤪 CHAOS!', '🌪️ MAYHEM!', '💥 BOOM!', '🎪 CIRCUS!'];
+            buttons.forEach(btn => {
+                btn.textContent = chaosTexts[Math.floor(Math.random() * chaosTexts.length)];
+                btn.style.animation = 'subtleBounce 0.6s ease-in-out infinite';
+            });
+            intervals.push(setInterval(createEmojiExplosion, 100));
+            intervals.push(setInterval(playRandomSound, 600));
+            showPopup("🌪️ CHAOS MODE ACTIVATED! 🌪️");
+        }
+
+        function loveExplosion() {
+            initAudio();
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => createFloatingHearts(), i * 100);
+            }
+            const loveMessages = [
+                "💕 BEST BIG SISTER EVER! 💕",
+                "❤️ YOU'RE AMAZING! ❤️",
+                "💖 LOVE YOU TO THE MOON! 💖"
+            ];
+            loveMessages.forEach((msg, i) => {
+                setTimeout(() => createFloatingMessage(msg), i * 1000);
+            });
+            playLoveSound();
+            showPopup("💕 LOVE EXPLOSION ACTIVATED! 💕");
+        }
+
+        function matrixMode() {
+            initAudio();
+            isMatrixMode = true;
+            intervals.push(setInterval(createMatrixRain, 150));
+            const title = document.getElementById('mainTitle');
+            title.innerHTML = "WELCOME TO THE MATRIX, BIG SIS! 🕶️";
+            title.style.color = '#00ff00';
+            title.style.fontFamily = 'monospace';
+            playMatrixSound();
+            showPopup("🔥 YOU'VE ENTERED THE MATRIX! 🔥");
+        }
+
+        function createEmojiExplosion() {
+            const emojis = ['😂', '🎉', '💕', '⭐', '🌈', '🦄', '🎈'];
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji-explosion';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 2000);
+        }
+
+        function createFloatingHearts() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-hearts';
+            heart.textContent = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 1 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        function createMatrixRain() {
+            if (!isMatrixMode) return;
+            const chars = '01アイウエオカキクケコ';
+            const column = document.createElement('div');
+            column.className = 'matrix-column';
+            column.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+            column.style.left = Math.random() * 100 + '%';
+            column.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+            document.getElementById('matrixRain').appendChild(column);
+            setTimeout(() => column.remove(), 3000);
+        }
+
+        function createFloatingMessage(text) {
+            const msg = document.createElement('div');
+            msg.className = 'popup-message';
+            msg.textContent = text;
+            msg.style.left = Math.random() * 80 + 10 + '%';
+            msg.style.top = Math.random() * 80 + 10 + '%';
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 3000);
+        }
+
+        function showPopup(message) {
+            const popup = document.createElement('div');
+            popup.className = 'popup-message';
+            popup.textContent = message;
+            document.body.appendChild(popup);
+            setTimeout(() => popup.remove(), 2500);
+        }
+
+        function playSoundSymphony() {
+            const frequencies = [523, 659, 784];
+            frequencies.forEach((freq, i) => {
+                setTimeout(() => playSound(freq, 0.2), i * 150);
+            });
+        }
+
+        function playRandomSound() {
+            const frequencies = [440, 523, 659, 784];
+            playSound(frequencies[Math.floor(Math.random() * frequencies.length)], 0.15);
+        }
+
+        function playLoveSound() {
+            playSound(800, 0.2, 'sine');
+        }
+
+        function playMatrixSound() {
+            playSound(300, 0.3, 'triangle');
+        }
+
+        function playSound(frequency = 800, volume = 0.3, type = 'sine') {
+            if (!audioContext) return;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+            gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.4);
+        }
+
+        const epicTitles = [
+            "🎉 BIG SIS GOT PRANKED! 🎉",
+            "💕 BEST SISTER EVER! 💕",
+            "🌟 SISTER POWER! 🌟"
+        ];
+
+        setInterval(() => {
+            if (prankLevel > 0) {
+                const title = document.getElementById('mainTitle');
+                title.textContent = epicTitles[Math.floor(Math.random() * epicTitles.length)];
+            }
+        }, 3000);
+
+        let konamiCode = [];
+        const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konami.length) konamiCode.shift();
+            if (konamiCode.join('') === konami.join('')) {
+                initAudio();
+                document.body.style.transition = 'transform 2s ease';
+                document.body.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    document.body.style.transform = 'rotate(0deg)';
+                    showPopup('🎮 KONAMI CODE ACTIVATED! 🎮');
+                }, 2000);
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => createEmojiExplosion(), i * 50);
+                }
+                playSoundSymphony();
+            }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            intervals.forEach(interval => clearInterval(interval));
+        });
+
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showPopup('😜 No right-clicking! 😜');
+        });
+
+        setTimeout(() => {
+            if (prankLevel === 0) {
+                showPopup('🎉 Auto-prank in 3... 2... 1... 🎉');
+                setTimeout(ultimateSurprise, 3000);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
